@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致我最爱的你 | 浪漫表白网站</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="background-hearts"></div>
+
+    <!-- 导航栏（简单） -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">❤️ 致我最爱的你</a>
+            <div class="nav-links">
+                <a href="#photos">照片</a>
+                <a href="#message">表白</a>
+                <a href="#countdown">倒计时</a>
+                <a href="#contact">留言</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主标题区域 -->
+    <header class="hero">
+        <div class="container">
+            <h1 class="title">给 <span class="highlight">亲爱的你</span></h1>
+            <p class="subtitle">遇见你是我一生中最美好的意外</p>
+            <div class="heart-pulse" id="heart-pulse">
+                <i class="fas fa-heart"></i>
+            </div>
+            <p class="instruction">点击下面的爱心开始我们的故事</p>
+            <button class="confession-btn" id="confession-btn">
+                <i class="fas fa-heart"></i> 打开我的心意
+            </button>
+        </div>
+    </header>
+
+    <!-- 照片展示区 -->
+    <section class="photos" id="photos">
+        <div class="container">
+            <h2 class="section-title">我们的回忆 <i class="fas fa-camera-retro"></i></h2>
+            <p class="section-subtitle">每一张照片都是我们故事的碎片</p>
+            <div class="photo-gallery">
+                <div class="photo-item">
+                    <div class="photo-frame">
+                        <img src="C:\Users\21821\love-website\love-website\屏幕截图 2026-04-14 135324.png" alt="浪漫时刻">
+                        <div class="photo-caption">相遇的那一天</div>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <div class="photo-frame">
+                        <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="快乐时光">
+                        <div class="photo-caption">一起笑的时光</div>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <div class="photo-frame">
+                        <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="未来憧憬">
+                        <div class="photo-caption">憧憬的未来</div>
+                    </div>
+                </div>
+            </div>
+            <p class="note">💖 这里可以放置你们的真实照片 💖</p>
+        </div>
+    </section>
+
+    <!-- 表白信息区（隐藏，点击按钮后显示） -->
+    <section class="message hidden" id="message">
+        <div class="container">
+            <h2 class="section-title">我想对你说 <i class="fas fa-heart"></i></h2>
+            <div class="message-content">
+                <p>亲爱的，</p>
+                <p>从遇见你的那一刻起，我的世界便充满了色彩。你的笑容像阳光一样温暖，你的声音像音乐一样动听。</p>
+                <p>每一天，我都感谢命运让我们相遇。无论是平淡的日常还是特别的时刻，只要有你在身边，就是我最幸福的时光。</p>
+                <p>我想和你一起看遍世间的风景，走过四季的更迭，分享生活的点点滴滴。未来的路还很长，但我希望每一步都有你相伴。</p>
+                <p class="signature">永远爱你的我 ❤️</p>
+            </div>
+            <button class="close-btn" id="close-btn">
+                <i class="fas fa-times"></i> 收起心意
+            </button>
+        </div>
+    </section>
+
+    <!-- 倒计时区域 -->
+    <section class="countdown" id="countdown">
+        <div class="container">
+            <h2 class="section-title">重要的日子 <i class="fas fa-clock"></i></h2>
+            <p class="section-subtitle">距离我们的下一个纪念日还有</p>
+            <div class="countdown-timer">
+                <div class="time-unit">
+                    <span class="number" id="days">00</span>
+                    <span class="label">天</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="hours">00</span>
+                    <span class="label">小时</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="minutes">00</span>
+                    <span class="label">分钟</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="seconds">00</span>
+                    <span class="label">秒</span>
+                </div>
+            </div>
+            <p class="countdown-note">💑 纪念日：2023年4月20日 💑</p>
+            <div class="date-picker">
+                <label for="custom-date">设置你的重要日期：</label>
+                <input type="date" id="custom-date">
+                <button id="update-date">更新倒计时</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 留言表单 -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">留下你的回应 <i class="fas fa-envelope"></i></h2>
+            <p class="section-subtitle">我想听到你的声音</p>
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">你的名字：</label>
+                    <input type="text" id="name" placeholder="请输入你的名字" required>
+                </div>
+                <div class="form-group">
+                    <label for="message-text">你的留言：</label>
+                    <textarea id="message-text" rows="5" placeholder="写下你想对我说的话..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feeling">你的感受：</label>
+                    <select id="feeling">
+                        <option value="happy">😊 感动</option>
+                        <option value="excited">😍 惊喜</option>
+                        <option value="loved">🥰 幸福</option>
+                        <option value="shy">😳 害羞</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> 发送心意
+                </button>
+            </form>
+            <div class="response-message hidden" id="response-message">
+                <p>💖 谢谢你的回应！我的心因你而温暖。 💖</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社交媒体分享 -->
+    <section class="share">
+        <div class="container">
+            <h2 class="section-title">分享这份浪漫 <i class="fas fa-share-alt"></i></h2>
+            <p class="section-subtitle">让世界见证我们的爱情</p>
+            <div class="share-buttons">
+                <button class="share-btn wechat">
+                    <i class="fab fa-weixin"></i> 微信
+                </button>
+                <button class="share-btn weibo">
+                    <i class="fab fa-weibo"></i> 微博
+                </button>
+                <button class="share-btn qq">
+                    <i class="fab fa-qq"></i> QQ
+                </button>
+                <button class="share-btn copy-link">
+                    <i class="fas fa-link"></i> 复制链接
+                </button>
+            </div>
+            <p class="share-note">❤️ 分享给你的朋友，让爱传递 ❤️</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>用心制作的表白网站 ❤️ | 每一个细节都藏着我对你的爱</p>
+            <p>© 2025 致我最爱的你 | 愿天下有情人终成眷属</p>
+            <div class="footer-hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 点击动画效果容器 -->
+    <div class="click-effects"></div>
+
+    <!-- JavaScript 文件 -->
+    <script src="script.js"></script>
+</body>
+</html>
