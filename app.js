@@ -1,6 +1,7 @@
 const storageKey = "love-520-records";
 const settingsKey = "love-520-settings";
 const sessionKey = "love-520-current-user";
+const apiStatePath = "/api/state";
 const adminAccount = "Liu0420";
 const adminPassword = "Liu0420";
 
@@ -74,6 +75,7 @@ const elements = {
   clearButton: $("#clearButton"),
   logoutButton: $("#logoutButton"),
   exportButton: $("#exportButton"),
+  importInput: $("#importInput"),
   editModal: $("#editModal"),
   editForm: $("#editForm"),
   editTitle: $("#editTitle"),
@@ -102,6 +104,7 @@ function init() {
   showRandomQuote();
   renderLogin();
   render();
+  loadSharedState();
 }
 
 function bindEvents() {
@@ -205,6 +208,14 @@ function bindEvents() {
 
   elements.exportButton.addEventListener("click", () => {
     if (isAdmin()) exportRecords();
+  });
+
+  elements.importInput.addEventListener("change", async () => {
+    if (!isAdmin()) return;
+    const file = elements.importInput.files[0];
+    if (!file) return;
+    await importRecords(file);
+    elements.importInput.value = "";
   });
 
   elements.editForm.addEventListener("submit", async (event) => {
@@ -354,6 +365,52 @@ function renderStats() {
     : "未设置";
 
   elements.recordCount.textContent = `${state.records.length} 条`;
+}
+
+async function loadSharedState() {
+  if (!canUseApi()) return;
+
+  try {
+    const response = await fetch(apiStatePath, {
+      cache: "no-store"
+    });
+    if (!response.ok) return;
+
+    const data = await response.json();
+    state.records = Array.isArray(data.records) ? data.records : [];
+    state.settings = {
+      ...state.settings,
+      ...(data.settings || {})
+    };
+    elements.startDateInput.value = state.settings.startDate || "";
+    elements.anniversaryInput.value = state.settings.anniversary || "";
+    localStorage.setItem(storageKey, JSON.stringify(state.records));
+    localStorage.setItem(settingsKey, JSON.stringify(state.settings));
+    render();
+  } catch {
+    // 直接打开 HTML 时没有服务端，继续使用本地数据。
+  }
+}
+
+function syncSharedState() {
+  if (!canUseApi()) return;
+
+  fetch(apiStatePath, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      records: state.records,
+      settings: state.settings
+    })
+  }).catch(() => {
+    // 网络不可用时保留本地保存结果。
+  });
+}
+
+function canUseApi() {
+  return location.protocol === "http:" || location.protocol === "https:";
 }
 
 function renderCover() {
@@ -506,6 +563,24 @@ function exportRecords() {
   URL.revokeObjectURL(url);
 }
 
+async function importRecords(file) {
+  try {
+    const data = JSON.parse(await file.text());
+    state.records = Array.isArray(data.records) ? data.records : [];
+    state.settings = {
+      ...state.settings,
+      ...(data.settings || {})
+    };
+    elements.startDateInput.value = state.settings.startDate || "";
+    elements.anniversaryInput.value = state.settings.anniversary || "";
+    save(storageKey, state.records);
+    save(settingsKey, state.settings);
+    render();
+  } catch {
+    alert("导入失败，请选择之前导出的 JSON 文件。");
+  }
+}
+
 function currentUser() {
   return readSession(sessionKey);
 }
@@ -536,6 +611,7 @@ function readJson(key, fallback) {
 
 function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+  syncSharedState();
 }
 
 function fileToDataUrl(file) {

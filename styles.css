@@ -409,6 +409,10 @@ h3 {
   display: none;
 }
 
+.import-button input {
+  display: none;
+}
+
 .frame-caption {
   position: absolute;
   left: 18px;
