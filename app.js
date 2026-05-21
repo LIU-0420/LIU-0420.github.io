@@ -52,6 +52,8 @@ const elements = {
   coverDate: $("#coverDate"),
   timeline: $("#timeline"),
   messageWall: $("#messageWall"),
+  photoTimelineSection: $("#photoTimelineSection"),
+  messageSection: $("#messageSection"),
   emptyState: $("#emptyState"),
   messageEmptyState: $("#messageEmptyState"),
   recordTemplate: $("#recordTemplate"),
@@ -143,6 +145,7 @@ function bindEvents() {
 
     elements.photoForm.reset();
     elements.photoDateInput.value = new Date().toISOString().slice(0, 10);
+    scrollToRecords(elements.photoTimelineSection);
   });
 
   elements.messageForm.addEventListener("submit", async (event) => {
@@ -163,6 +166,7 @@ function bindEvents() {
     });
 
     elements.messageForm.reset();
+    scrollToRecords(elements.messageSection);
   });
 
   elements.quoteButton.addEventListener("click", showRandomQuote);
@@ -372,22 +376,32 @@ function createRecordCard(record) {
     }
 
     const canEdit = isAdmin();
-    const canDeleteMessage = isAdmin() && record.type === "message";
+    const canDeleteRecord = isAdmin();
     editButton.classList.toggle("is-hidden", !canEdit);
     editButton.addEventListener("click", () => {
       if (!canEdit) return;
       editRecord(record.id);
     });
 
-    deleteButton.classList.toggle("is-hidden", !canDeleteMessage);
+    deleteButton.classList.toggle("is-hidden", !canDeleteRecord);
     deleteButton.addEventListener("click", () => {
-      if (!canDeleteMessage) return;
+      if (!canDeleteRecord) return;
       state.records = state.records.filter((item) => item.id !== record.id);
       save(storageKey, state.records);
       render();
     });
 
     return card;
+}
+
+function scrollToRecords(section) {
+  document.activeElement?.blur();
+  setTimeout(() => {
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 80);
 }
 
 function editRecord(id) {
