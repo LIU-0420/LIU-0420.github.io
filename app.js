@@ -97,6 +97,7 @@ function init() {
   elements.anniversaryInput.value = state.settings.anniversary;
   elements.clearButton.textContent = "清空留言";
 
+  setupDateYearControls();
   bindEvents();
   showRandomQuote();
   renderLogin();
@@ -218,6 +219,41 @@ function bindEvents() {
       closeEditModal();
     }
   });
+}
+
+function setupDateYearControls() {
+  $$('input[type="date"]').forEach((input) => {
+    const tools = document.createElement("div");
+    tools.className = "date-year-tools";
+    tools.innerHTML = `
+      <button type="button" data-year-step="-1">上一年</button>
+      <button type="button" data-year-step="1">下一年</button>
+    `;
+
+    tools.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      adjustDateYear(input, Number(button.dataset.yearStep));
+    });
+
+    input.insertAdjacentElement("afterend", tools);
+  });
+}
+
+function adjustDateYear(input, step) {
+  const current = input.value ? new Date(`${input.value}T00:00:00`) : new Date();
+  const nextYear = current.getFullYear() + step;
+  const month = current.getMonth();
+  const day = Math.min(current.getDate(), daysInMonth(nextYear, month));
+  const next = new Date(nextYear, month, day);
+
+  input.value = toDateInputValue(next);
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function daysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
 }
 
 function handleLogin() {
@@ -526,6 +562,13 @@ function countdownText(date) {
   if (days > 0) return `还有 ${days} 天`;
   if (days === 0) return "就是今天";
   return `已过去 ${Math.abs(days)} 天`;
+}
+
+function toDateInputValue(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function formatDate(date) {

@@ -519,6 +519,25 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(217, 79, 112, 0.14);
 }
 
+.date-year-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.date-year-tools button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--rose-dark);
+  background: rgba(255, 255, 255, 0.78);
+  cursor: pointer;
+}
+
+.date-year-tools button:hover {
+  background: #fff5f7;
+}
+
 textarea {
   min-height: 108px;
   resize: vertical;
